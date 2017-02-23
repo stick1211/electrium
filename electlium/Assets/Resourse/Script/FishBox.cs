@@ -21,18 +21,18 @@ public class FishBox : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (Input.GetMouseButtonDown(0))
-        {
-          
+        {        
             StartPos = Input.mousePosition.y;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = new RaycastHit2D();
-            hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction,600,8);
-            if (hit.collider)
-            {
-                TouchFish = hit.collider.gameObject;
-                Debug.Log(hit.collider.gameObject.name);
+            foreach(GameObject obj in GameObject.FindGameObjectsWithTag("fish")) {
+                //               if (obj.GetComponent<Collider2D>().OverlapPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition)))
+                if (obj.GetComponent<Collider2D>().OverlapPoint(Input.mousePosition))
+                {
+                    TouchFish = obj;
+                    Debug.Log(obj.name);
+                }
             }
         }
+        
 
         if (Input.GetMouseButtonUp(0))
         {
@@ -56,7 +56,7 @@ public class FishBox : MonoBehaviour {
             Vector3 touchFishPosition = TouchFish.transform.position;
             while (touchFishPosition.y <= 200)
             {
-                touchFishPosition.y += 10;
+                touchFishPosition.y += 2;
                 yield return null;
             }
             Destroy(TouchFish);
